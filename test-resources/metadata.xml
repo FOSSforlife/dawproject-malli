@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetaData>
+  <Title>Kitchen Sink</Title>
+  <Artist>Nobody</Artist>
+  <Album>Tests</Album>
+  <OriginalArtist>Nobody</OriginalArtist>
+  <Composer>Nobody</Composer>
+  <Songwriter>Nobody</Songwriter>
+  <Producer>Nobody</Producer>
+  <Arranger>Nobody</Arranger>
+  <Year>2026</Year>
+  <Genre>Test</Genre>
+  <Copyright>none</Copyright>
+  <Website>https://example.com</Website>
+  <Comment>Every MetaData field.</Comment>
+</MetaData>

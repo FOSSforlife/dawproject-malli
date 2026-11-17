@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-written project that exercises every element/attribute of Project.xsd. -->
+<Project version="1.0">
+  <Application name="Kitchen Sink" version="0.1"/>
+  <Transport>
+    <Tempo unit="bpm" value="120.000000" min="20.000000" max="666.000000" id="tempo" name="Tempo"/>
+    <TimeSignature numerator="7" denominator="8" id="timesig"/>
+  </Transport>
+  <Structure>
+    <Track contentType="notes audio" loaded="true" id="trk1" name="Synth" color="#ff0000" comment="lead">
+      <Channel audioChannels="2" destination="master-ch" role="regular" solo="false" id="ch1">
+        <Devices>
+          <ClapPlugin deviceID="com.example.synth" deviceName="Synth" deviceRole="instrument" deviceVendor="Example" pluginVersion="1.2.3" loaded="true" id="dev1">
+            <Parameters>
+              <RealParameter parameterID="1" unit="normalized" value="0.25" min="0" max="1" id="p1"/>
+              <BoolParameter parameterID="2" value="true" id="p2"/>
+              <IntegerParameter parameterID="3" value="4" min="0" max="10" id="p3"/>
+              <EnumParameter parameterID="4" count="3" labels="Saw Square Sine" value="1" id="p4"/>
+              <TimeSignatureParameter parameterID="5" numerator="3" denominator="4" id="p5"/>
+            </Parameters>
+            <Enabled value="true" id="dev1-on"/>
+            <State path="plugins/synth.clap-preset" external="false"/>
+          </ClapPlugin>
+          <Vst2Plugin deviceName="Old FX" deviceRole="audioFX" id="dev2"/>
+          <Vst3Plugin deviceName="New FX" deviceRole="noteFX" id="dev3"/>
+          <AuPlugin deviceName="Mac FX" deviceRole="analyzer" id="dev4"/>
+          <Device deviceName="Generic" deviceRole="audioFX" id="dev5"/>
+          <BuiltinDevice deviceName="Builtin" deviceRole="audioFX" id="dev6"/>
+          <Equalizer deviceName="EQ" deviceRole="audioFX" id="eq">
+            <Band type="highPass" order="2">
+              <Freq unit="hertz" value="40"/>
+              <Q unit="linear" value="0.707"/>
+              <Enabled value="true"/>
+            </Band>
+            <Band type="bell">
+              <Freq unit="hertz" value="1000"/>
+              <Gain unit="decibel" value="-3.5"/>
+            </Band>
+            <InputGain unit="decibel" value="0"/>
+            <OutputGain unit="decibel" value="0"/>
+          </Equalizer>
+          <Compressor deviceName="Comp" deviceRole="audioFX" id="comp">
+            <Attack unit="seconds" value="0.01"/>
+            <AutoMakeup value="false"/>
+            <InputGain unit="decibel" value="0"/>
+            <OutputGain unit="decibel" value="0"/>
+            <Ratio unit="linear" value="4"/>
+            <Release unit="seconds" value="0.1"/>
+            <Threshold unit="decibel" value="-18"/>
+          </Compressor>
+          <NoiseGate deviceName="Gate" deviceRole="audioFX" id="gate">
+            <Attack unit="seconds" value="0.001"/>
+            <Range unit="decibel" value="-inf"/>
+            <Ratio unit="linear" value="inf"/>
+            <Release unit="seconds" value="0.05"/>
+            <Threshold unit="decibel" value="-40"/>
+          </NoiseGate>
+          <Limiter deviceName="Limiter" deviceRole="audioFX" id="lim">
+            <Attack unit="seconds" value="0.001"/>
+            <InputGain unit="decibel" value="0"/>
+            <OutputGain unit="decibel" value="-0.3"/>
+            <Release unit="seconds" value="0.05"/>
+            <Threshold unit="decibel" value="-1"/>
+          </Limiter>
+        </Devices>
+        <Mute value="false" id="ch1-mute"/>
+        <Pan unit="normalized" value="0.5" id="ch1-pan"/>
+        <Sends>
+          <Send destination="fx-ch" type="post" id="send1">
+            <Enable value="true"/>
+            <Pan unit="normalized" value="0.5"/>
+            <Volume unit="linear" value="0.5" id="send1-vol"/>
+          </Send>
+        </Sends>
+        <Volume unit="linear" value="0.8" id="ch1-vol"/>
+      </Channel>
+    </Track>
+    <Track contentType="tracks" id="group" name="Group">
+      <Channel role="submix" id="group-ch"/>
+      <Track contentType="audio video markers automation" id="trk2" name="Child"/>
+    </Track>
+    <Channel role="effect" audioChannels="2" id="fx-ch" name="FX Return"/>
+    <Channel role="vca" id="vca-ch"/>
+    <Channel role="master" audioChannels="2" id="master-ch" name="Master"/>
+  </Structure>
+  <Arrangement id="arr">
+    <Lanes timeUnit="beats" id="arr-lanes">
+      <Lanes track="trk1" id="trk1-lanes">
+        <Clips id="clips1">
+          <Clip time="0" duration="4" contentTimeUnit="beats" playStart="0" playStop="4" loopStart="0" loopEnd="4"
+                fadeTimeUnit="seconds" fadeInTime="0.01" fadeOutTime="0.01" enable="true" name="Clip A"/>
+        </Clips>
+        <Points track="trk1" unit="normalized" id="auto1">
+          <Target parameter="p1"/>
+          <RealPoint time="0" value="0" interpolation="linear"/>
+          <RealPoint time="4" value="1" interpolation="hold"/>
+        </Points>
+        <Points id="auto2">
+          <Target parameter="p2"/>
+          <BoolPoint time="0" value="false"/>
+        </Points>
+        <Points id="auto3">
+          <Target parameter="p3"/>
+          <IntegerPoint time="0" value="3"/>
+        </Points>
+        <Points id="auto4">
+          <Target parameter="p4"/>
+          <EnumPoint time="0" value="2"/>
+        </Points>
+        <Points id="auto5">
+          <Target expression="channelController" channel="0" controller="1"/>
+          <RealPoint time="0" value="0.5"/>
+        </Points>
+      </Lanes>
+      <Lanes track="trk2" id="trk2-lanes">
+        <Clips id="clips2">
+          <Clip time="0" duration="8" name="Audio clip">
+            <Warps contentTimeUnit="seconds" timeUnit="beats" id="warps1">
+              <Audio channels="2" sampleRate="48000" duration="4.0" algorithm="stretch" id="audio1">
+                <File path="audio/drums.wav"/>
+              </Audio>
+              <Warp time="0" contentTime="0"/>
+              <Warp time="8" contentTime="4"/>
+            </Warps>
+          </Clip>
+          <Clip time="8" duration="4" reference="clips1"/>
+          <Clip time="12">
+            <Video channels="2" sampleRate="44100" duration="10" id="video1">
+              <File path="/abs/video.mp4" external="true"/>
+            </Video>
+          </Clip>
+          <Clip time="16" duration="4">
+            <Notes id="notes1">
+              <Note time="0" duration="1" channel="0" key="60" vel="0.8" rel="0.5">
+                <Points id="note-expr">
+                  <Target expression="pitchBend"/>
+                  <RealPoint time="0" value="0"/>
+                </Points>
+              </Note>
+              <Note time="1" duration="1" channel="0" key="64"/>
+            </Notes>
+          </Clip>
+        </Clips>
+        <markers id="lane-markers">
+          <Marker time="0" name="Intro"/>
+        </markers>
+      </Lanes>
+    </Lanes>
+    <Markers id="arr-markers">
+      <Marker time="0" name="Start" color="#00ff00"/>
+      <Marker time="32" name="Chorus"/>
+    </Markers>
+    <TempoAutomation unit="bpm" id="tempo-auto">
+      <Target parameter="tempo"/>
+      <RealPoint time="0" value="120"/>
+      <RealPoint time="16" value="140" interpolation="linear"/>
+    </TempoAutomation>
+    <TimeSignatureAutomation id="ts-auto">
+      <Target parameter="timesig"/>
+      <TimeSignaturePoint time="0" numerator="4" denominator="4"/>
+      <TimeSignaturePoint time="16" numerator="7" denominator="8"/>
+    </TimeSignatureAutomation>
+  </Arrangement>
+  <Scenes>
+    <Scene id="scene1" name="Scene 1">
+      <Lanes id="scene1-lanes">
+        <ClipSlot track="trk1" hasStop="true" id="slot1">
+          <Clip time="0" duration="4" name="Launcher clip">
+            <Notes id="notes2">
+              <Note time="0" duration="0.5" channel="9" key="36"/>
+            </Notes>
+          </Clip>
+        </ClipSlot>
+        <ClipSlot track="trk2" hasStop="false" id="slot2"/>
+      </Lanes>
+    </Scene>
+  </Scenes>
+</Project>
